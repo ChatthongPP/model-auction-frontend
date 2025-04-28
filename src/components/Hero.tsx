@@ -1,17 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import { ShoppingCart } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="bg-gradient-to-b from-[#1f0a38] to-[#2d1459] py-20 relative">
-      
+    <section className="bg-gradient-to-b from-[#1f0a38] via-[#5c2f8b] to-[#1f0a38] py-20 relative">ั
       {/* ส่วนหัว */}
       <div className="text-center">
         <h1 className="text-5xl font-bold text-white mb-4 drop-shadow-md">
           Welcome to MarketPlace
         </h1>
-        <p className="text-lg text-[#f4c2c2] mb-10">ค้นหาของสะสมที่คุณชื่นชอบ</p>
+        <p className="text-lg text-[#f4c2c2] mb-10">
+          ค้นหาของสะสมที่คุณชื่นชอบ
+        </p>
 
         {/* Search + Dropdown + Cart */}
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-10">
@@ -31,9 +33,10 @@ export default function Hero() {
           </button>
           <Link
             href="/cart"
-            className="bg-[#9b59b6] hover:bg-pink-400 text-white font-bold py-2 px-4 rounded-2xl shadow-md"
+            className="bg-[#9b59b6] hover:bg-pink-400 text-white font-bold py-2 px-4 rounded-2xl shadow-md flex items-center gap-2"
           >
-            🛒
+            <ShoppingCart size={25} />
+            
           </Link>
         </div>
 
@@ -71,7 +74,6 @@ export default function Hero() {
           </Link>
         </div>
       </div>
-
     </section>
   );
 }
