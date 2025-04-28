@@ -14,7 +14,7 @@ export default function Profile() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-950 py-12 px-6">
+    <div className="min-h-screen bg-gradient-to-b from-[#2d1459] to-[#3d2075] py-12 px-6">
       <div className="max-w-6xl mx-auto space-y-10">
         
         {/* เงินคงเหลือ */}

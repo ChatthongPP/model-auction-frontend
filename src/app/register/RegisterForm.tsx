@@ -63,82 +63,82 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
       >
         {/* Email */}
         <div className="flex flex-col md:col-span-2">
-          <label className="text-sm text-gray-600 mb-1">* อีเมล์:</label>
+          <label className="text-sm text-[#FFFFFFFF} mb-1"><span className="text-red-500">*</span> อีเมล์:</label>
           <input
             type="email"
             name="email"
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-black"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
           />
         </div>
 
         {/* First Name */}
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1">* ชื่อจริง:</label>
+          <label className="text-sm text-[#FFFFFFFF} mb-1"><span className="text-red-500">*</span>  ชื่อจริง:</label>
           <input
             type="text"
             name="firstName"
             placeholder="First Name"
             value={formData.firstName}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-black"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
           />
         </div>
 
         {/* Last Name */}
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1">* นามสกุล:</label>
+          <label className="text-sm text-[#FFFFFFFF} mb-1"><span className="text-red-500">*</span>  นามสกุล:</label>
           <input
             type="text"
             name="lastName"
             placeholder="Last Name"
             value={formData.lastName}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-black"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
           />
         </div>
 
         {/* Password */}
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1">* รหัสผ่าน:</label>
+          <label className="text-sm text-[#FFFFFFFF} mb-1"><span className="text-red-500">*</span>  รหัสผ่าน:</label>
           <input
             type="password"
             name="password"
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-black"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
           />
         </div>
 
         {/* Confirm Password */}
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1">* ยืนยันรหัสผ่าน:</label>
+          <label className="text-sm text-[#FFFFFFFF} mb-1"><span className="text-red-500">*</span>  ยืนยันรหัสผ่าน:</label>
           <input
             type="password"
             name="confirmPassword"
             placeholder="Confirm Password"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-black"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
           />
         </div>
 
         {/* Gender */}
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1">* เพศ:</label>
+          <label className="text-sm text-[#FFFFFFFF} mb-1"><span className="text-red-500">*</span>  เพศ:</label>
           <select
             name="gender"
             value={formData.gender}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-black"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
           >
             <option value="">เลือกเพศ</option>
@@ -150,96 +150,96 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
 
         {/* Phone */}
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1">* เบอร์โทรศัพท์:</label>
+          <label className="text-sm text-[#FFFFFFFF} mb-1"><span className="text-red-500">*</span>  เบอร์โทรศัพท์:</label>
           <input
             type="tel"
             name="phone"
             placeholder="เบอร์โทรศัพท์"
             value={formData.phone}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-black"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
           />
         </div>
 
         {/* Zipcode */}
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1">* รหัสไปรษณีย์:</label>
+          <label className="text-sm text-[#FFFFFFFF} mb-1"><span className="text-red-500">*</span>  รหัสไปรษณีย์:</label>
           <input
             type="text"
             name="zipcode"
             placeholder="รหัสไปรษณีย์"
             value={formData.zipcode}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-black"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
           />
         </div>
 
         {/* ID Card */}
         <div className="flex flex-col md:col-span-2">
-          <label className="text-sm text-gray-600 mb-1">* เลขบัตรประชาชน:</label>
+          <label className="text-sm text-[#FFFFFFFF} mb-1"><span className="text-red-500">*</span>  เลขบัตรประชาชน:</label>
           <input
             type="text"
             name="idCard"
             placeholder="เลขบัตรประชาชน"
             value={formData.idCard}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-black"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
           />
         </div>
 
         {/* Address */}
         <div className="flex flex-col md:col-span-2">
-          <label className="text-sm text-gray-600 mb-1">* บ้านเลขที่ / หมู่บ้าน:</label>
+          <label className="text-sm text-[#FFFFFFFF} mb-1"><span className="text-red-500">*</span>  บ้านเลขที่ / หมู่บ้าน:</label>
           <input
             type="text"
             name="address"
             placeholder="ที่อยู่"
             value={formData.address}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-black"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
           />
         </div>
 
         {/* Sub-district */}
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1">แขวง/ตำบล:</label>
+          <label className="text-sm text-[#FFFFFFFF} mb-1">แขวง/ตำบล:</label>
           <input
             type="text"
             name="subDistrict"
             placeholder="แขวง/ตำบล"
             value={formData.subDistrict}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-black"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
           />
         </div>
 
         {/* District */}
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1">เขต/อำเภอ:</label>
+          <label className="text-sm text-[#FFFFFFFF} mb-1">เขต/อำเภอ:</label>
           <input
             type="text"
             name="district"
             placeholder="เขต/อำเภอ"
             value={formData.district}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-black"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
           />
         </div>
 
         {/* Province */}
         <div className="flex flex-col md:col-span-2">
-          <label className="text-sm text-gray-600 mb-1">จังหวัด:</label>
+          <label className="text-sm text-[#FFFFFFFF} mb-1">จังหวัด:</label>
           <input
             type="text"
             name="province"
             placeholder="จังหวัด"
             value={formData.province}
             onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 text-black"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
           />
         </div>
 
@@ -247,7 +247,7 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
         <div className="md:col-span-2">
           <button
             type="submit"
-            className="bg-green-500 hover:bg-green-600 w-full text-white font-bold py-3 rounded-full transition duration-300 mt-4"
+            className="bg-gradient-to-r from-[#6a0dad] to-[#9b59b6] hover:from-[#9b59b6] hover:to-pink-400 w-full text-white font-bold py-3 rounded-full transition duration-300 mt-4"
           >
             สมัครสมาชิก
           </button>
@@ -255,7 +255,7 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
       </form>
 
       {/* มีบัญชีอยู่แล้ว? */}
-      <p className="text-center text-gray-600 text-sm mt-6">
+      <p className="text-center text-[#FFFFFFFF] text-sm mt-6">
         มีบัญชีอยู่แล้ว?{" "}
         <button
           type="button"

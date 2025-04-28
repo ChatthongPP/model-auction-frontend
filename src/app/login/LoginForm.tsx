@@ -17,14 +17,14 @@ export default function LoginForm({ setActiveModal }: LoginFormProps) {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+      <h2 className="text-3xl font-bold mb-4 text-center">Login</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6">
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border border-gray-300 text-black rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="border border-pink-400 text-[#FFFFFF] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
           required
         />
         <input
@@ -32,23 +32,23 @@ export default function LoginForm({ setActiveModal }: LoginFormProps) {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border border-gray-300 text-black rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="border border-pink-400 text-[#FFFFFF] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
           required
         />
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-full transition duration-300"
+          className="bg-gradient-to-r from-[#6a0dad] to-[#9b59b6] hover:from-[#9b59b6] hover:to-pink-400 text-white font-bold py-2 px-4 rounded-2xl shadow-md"
         >
           เข้าสู่ระบบ
         </button>
       </form>
 
-      <p className="text-center text-gray-600 text-sm mt-6">
+      <p className="text-center text-[#FFFFFF] text-sm mt-6">
         ยังไม่มีบัญชี?{" "}
         <button
           type="button"
           onClick={() => setActiveModal("register")}
-          className="text-blue-500 hover:underline"
+          className="text-pink-400  hover:underline"
         >
           สมัครสมาชิก
         </button>
