@@ -3,6 +3,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Footer from "@/components/Footer";
+import HomeButton from "@/components/HomeButton"; 
 import Link from "next/link";
 import { useState } from "react";
 import LoginForm from "@/app/login/LoginForm";
@@ -22,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Header */}
         <header className="bg-[#1f0a38] shadow-md">
           <div className="flex justify-between items-center px-8 py-4">
-            <h1 className="text-2xl font-bold text-white">MarketPlace</h1>
+            <HomeButton /> {/* ✅ ใช้ HomeButton Component */}
 
             <div className="flex gap-3">
               <button
@@ -52,7 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* Popup Modal */}
         {activeModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+          <div className="fixed inset-0 bg-opacity-60 flex justify-center items-center z-50">
             <div
               className={`bg-[#2d1459] text-white p-8 rounded-2xl shadow-2xl relative mx-4 
               ${activeModal === "register" ? "w-[900px] h-auto" : "w-[400px] h-[350px]"}`}
