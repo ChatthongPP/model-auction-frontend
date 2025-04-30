@@ -10,10 +10,35 @@ export default function LoginForm({ setActiveModal }: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // ทำ logic login
+  
+    try {
+      const res = await fetch("http://localhost:5555/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      if (!res.ok) {
+        const errorData = await res.json();
+        alert(errorData.message || "เข้าสู่ระบบไม่สำเร็จ");
+        return;
+      }
+  
+      const data = await res.json();
+      console.log("เข้าสู่ระบบสำเร็จ", data);
+  
+      // เช่น บันทึก token
+      localStorage.setItem("token", data.token);
+  
+      // ปิด modal หรือ redirect ก็ได้
+      setActiveModal(null);
+    } catch (error) {
+      alert("เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ");
+    }
   };
+  
 
   return (
     <div>
