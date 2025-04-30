@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 interface RegisterFormProps {
-  setActiveModal: React.Dispatch<React.SetStateAction<"login" | "register" | null>>;
+  setActiveModal: React.Dispatch<
+    React.SetStateAction<"login" | "register" | null>
+  >;
 }
 
 export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
@@ -31,7 +34,7 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
@@ -41,16 +44,47 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
 
     setErrorMessage("");
 
-   
-    const fullAddress = `${formData.address}, ต.${formData.subDistrict}, อ.${formData.district}, จ.${formData.province}`.trim();
+    const fullAddress =
+      `${formData.address}, ต.${formData.subDistrict}, อ.${formData.district}, จ.${formData.province}`.trim();
 
     const finalFormData = {
       ...formData,
       address: fullAddress,
     };
 
-    console.log("สมัครสมาชิกข้อมูล:", finalFormData);
-   
+    try {
+      const res = await fetch("http://localhost:5555/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(finalFormData),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: errorData.message || "ไม่สามารถสมัครสมาชิกได้",
+        });
+        return;
+      }
+
+      const data = await res.json();
+      Swal.fire({
+        icon: "success",
+        title: "สมัครสมาชิกสำเร็จ",
+        text: "คุณสามารถเข้าสู่ระบบได้ทันที",
+        confirmButtonText: "ตกลง",
+      }).then(() => {
+        setActiveModal("login");
+      });
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "การเชื่อมต่อล้มเหลว",
+        text: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้",
+      });
+    }
   };
 
   return (
@@ -69,7 +103,9 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
       >
         {/* Email */}
         <div className="flex flex-col md:col-span-2">
-          <label className="text-sm text-white mb-1"><span className="text-red-500">*</span> อีเมล์:</label>
+          <label className="text-sm text-white mb-1">
+            <span className="text-red-500">*</span> อีเมล์:
+          </label>
           <input
             type="email"
             name="email"
@@ -83,7 +119,9 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
 
         {/* First Name */}
         <div className="flex flex-col">
-          <label className="text-sm text-white mb-1"><span className="text-red-500">*</span> ชื่อจริง:</label>
+          <label className="text-sm text-white mb-1">
+            <span className="text-red-500">*</span> ชื่อจริง:
+          </label>
           <input
             type="text"
             name="first_name"
@@ -97,7 +135,9 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
 
         {/* Last Name */}
         <div className="flex flex-col">
-          <label className="text-sm text-white mb-1"><span className="text-red-500">*</span> นามสกุล:</label>
+          <label className="text-sm text-white mb-1">
+            <span className="text-red-500">*</span> นามสกุล:
+          </label>
           <input
             type="text"
             name="last_name"
@@ -111,7 +151,9 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
 
         {/* Password */}
         <div className="flex flex-col">
-          <label className="text-sm text-white mb-1"><span className="text-red-500">*</span> รหัสผ่าน:</label>
+          <label className="text-sm text-white mb-1">
+            <span className="text-red-500">*</span> รหัสผ่าน:
+          </label>
           <input
             type="password"
             name="password"
@@ -125,7 +167,9 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
 
         {/* Confirm Password */}
         <div className="flex flex-col">
-          <label className="text-sm text-white mb-1"><span className="text-red-500">*</span> ยืนยันรหัสผ่าน:</label>
+          <label className="text-sm text-white mb-1">
+            <span className="text-red-500">*</span> ยืนยันรหัสผ่าน:
+          </label>
           <input
             type="password"
             name="confirmPassword"
@@ -139,12 +183,14 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
 
         {/* Gender */}
         <div className="flex flex-col">
-          <label className="text-sm text-white mb-1"><span className="text-red-500">*</span> เพศ:</label>
+          <label className="text-sm text-white mb-1">
+            <span className="text-red-500">*</span> เพศ:
+          </label>
           <select
             name="gender"
             value={formData.gender}
             onChange={handleChange}
-            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-400"
             required
           >
             <option value="">เลือกเพศ</option>
@@ -156,7 +202,9 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
 
         {/* phone_number */}
         <div className="flex flex-col">
-          <label className="text-sm text-white mb-1"><span className="text-red-500">*</span> เบอร์โทรศัพท์:</label>
+          <label className="text-sm text-white mb-1">
+            <span className="text-red-500">*</span> เบอร์โทรศัพท์:
+          </label>
           <input
             type="tel"
             name="phone_number"
@@ -170,7 +218,9 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
 
         {/* Zipcode */}
         <div className="flex flex-col">
-          <label className="text-sm text-white mb-1"><span className="text-red-500">*</span> รหัสไปรษณีย์:</label>
+          <label className="text-sm text-white mb-1">
+            <span className="text-red-500">*</span> รหัสไปรษณีย์:
+          </label>
           <input
             type="text"
             name="zipcode"
@@ -184,7 +234,9 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
 
         {/* ID Card */}
         <div className="flex flex-col md:col-span-2">
-          <label className="text-sm text-white mb-1"><span className="text-red-500">*</span> เลขบัตรประชาชน:</label>
+          <label className="text-sm text-white mb-1">
+            <span className="text-red-500">*</span> เลขบัตรประชาชน:
+          </label>
           <input
             type="text"
             name="citizen_id"
@@ -198,7 +250,9 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
 
         {/* Address */}
         <div className="flex flex-col md:col-span-2">
-          <label className="text-sm text-white mb-1"><span className="text-red-500">*</span> บ้านเลขที่ / หมู่บ้าน:</label>
+          <label className="text-sm text-white mb-1">
+            <span className="text-red-500">*</span> บ้านเลขที่ / หมู่บ้าน:
+          </label>
           <input
             type="text"
             name="address"

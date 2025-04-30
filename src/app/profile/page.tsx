@@ -18,11 +18,10 @@ import {
 export default function Profile() {
   const router = useRouter();
   const [user] = useState({
-    email: "chatthong.pp@gmail.com",
-    password: "********",
-    name: "Chatthong",
-    phone: "0966918134",
-    address: "28/479 หมู่บ้านซิตี้เซนต์ 5 กระทุ่มล้ม สายห้า นครปฐม 73220",
+    email: "",
+    name: "",
+    phone: "",
+    address: "",
   });
 
   return (
@@ -62,10 +61,7 @@ export default function Profile() {
                 <Mail size={20} className="text-pink-400" />
                 <span className="font-medium">อีเมล์:</span> {user.email}
               </div>
-              <div className="flex items-center gap-2">
-                <Lock size={20} className="text-pink-400" />
-                <span className="font-medium">รหัสผ่าน:</span> {user.password}
-              </div>
+             
               <div className="flex items-center gap-2">
                 <User size={20} className="text-pink-400" />
                 <span className="font-medium">ชื่อจริง:</span> {user.name}
