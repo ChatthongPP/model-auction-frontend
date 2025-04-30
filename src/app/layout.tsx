@@ -6,8 +6,8 @@ import Footer from "@/components/Footer";
 import HomeButton from "@/components/HomeButton"; 
 import Link from "next/link";
 import { useState } from "react";
-import LoginForm from "@/app/login/LoginForm";
-import RegisterForm from "@/app/register/RegisterForm";
+import LoginForm from "@/login/LoginForm";
+import RegisterForm from "@/register/RegisterForm";
 
 const inter = Inter({ subsets: ["latin"] });
 

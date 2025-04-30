@@ -1,8 +1,8 @@
 "use client"; 
 import { useSearchParams } from "next/navigation"; 
 import { useState, useMemo, useEffect } from "react"; 
+import Link from "next/link";
 
-// สร้าง interface สำหรับโครงสร้างของ Product
 interface Product {
   id: number;
   name: string;
@@ -11,7 +11,7 @@ interface Product {
   category: string;
 }
 
-// สร้างข้อมูลสินค้า mock ขึ้นมา 50 รายการ
+
 const allProducts: Product[] = Array.from({ length: 50 }, (_, i) => ({
   id: i + 1,
   name: `Product #${i + 1}`,
@@ -26,9 +26,9 @@ export default function ProductPage() {
   const searchParams = useSearchParams(); 
   const searchTerm = searchParams.get("search")?.toLowerCase() || ""; 
   const categoryFilter = searchParams.get("category") || ""; 
-  const [currentPage, setCurrentPage] = useState(1); // state สำหรับเก็บหน้าปัจจุบัน
+  const [currentPage, setCurrentPage] = useState(1); 
 
-  // รีเซ็ตหน้า
+
   useEffect(() => {
     setCurrentPage(1); // กลับไปหน้าแรกเมื่อ filter เปลี่ยน
   }, [searchTerm, categoryFilter]);
@@ -61,12 +61,12 @@ export default function ProductPage() {
         <div className="text-center text-white mb-4">
           <p>
             Showing results for: <strong>{searchTerm || "All"}</strong>{" "}
-            {categoryFilter && <span>(Category: {categoryFilter})</span>} {/* แสดงเงื่อนไขที่ค้นหา */}
+            {categoryFilter && <span>(Category: {categoryFilter})</span>} 
           </p>
         </div>
       )}
 
-      {filteredProducts.length === 0 ? ( // ถ้าไม่มีสินค้าตรงกับเงื่อนไข
+      {filteredProducts.length === 0 ? ( 
         <div className="text-center text-white">
           <p>No products found matching your criteria.</p> 
         </div>
@@ -74,19 +74,20 @@ export default function ProductPage() {
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-6xl mx-auto"> 
             {paginatedProducts.map((product) => ( // วนลูปแสดงสินค้าตามหน้าปัจจุบัน
-              <div
-                key={product.id}
-                className="bg-[#3d2075] border border-pink-300 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105"
-              > {/* การ์ดสินค้า */}
-                <div className="h-40 bg-[#4c2882] mb-4 rounded" /> 
-                <h3 className="font-semibold text-white text-lg">{product.name}</h3> 
-                <p className="text-sm text-gray-400 mt-1">{product.description}</p> 
-                <p className="text-[#f4c2c2] font-bold mt-3">
-                  ${product.price.toFixed(2)} 
-                </p>
-              </div>
-            ))}
-          </div>
+             <Link
+             href={`/product-detail?id=${product.id}`} // 🔗 ลิงก์ไปยังหน้ารายละเอียด
+             key={product.id}
+             className="bg-[#3d2075] border border-pink-300 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105 block"
+           >
+             <div className="h-40 bg-[#4c2882] mb-4 rounded" />
+             <h3 className="font-semibold text-white text-lg">{product.name}</h3>
+             <p className="text-sm text-gray-400 mt-1">{product.description}</p>
+             <p className="text-[#f4c2c2] font-bold mt-3">
+               ${product.price.toFixed(2)}
+             </p>
+           </Link>
+         ))}
+       </div>
 
           {totalPages > 1 && ( 
             <div className="flex justify-center mt-10 space-x-2">
