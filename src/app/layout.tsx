@@ -6,8 +6,8 @@ import Footer from "@/components/Footer";
 import HomeButton from "@/components/HomeButton"; 
 import Link from "next/link";
 import { useState } from "react";
-import LoginForm from "@/app/login/LoginForm";
-import RegisterForm from "@/app/register/RegisterForm";
+import LoginForm from "@/login/LoginForm";
+import RegisterForm from "@/register/RegisterForm";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,7 +43,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 className="bg-[#6a0dad] hover:bg-[#9b59b6] text-white font-bold py-2 px-4 rounded-2xl"
               >
                 Profile
+              </Link><Link
+                href="/seller-centre"
+                className="bg-[#970505] hover:bg-[#9b59b6] text-white font-bold py-2 px-4 rounded-2xl"
+              >
+                Seller
               </Link>
+
             </div>
           </div>
 
