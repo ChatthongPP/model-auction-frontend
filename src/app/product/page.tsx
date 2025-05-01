@@ -30,7 +30,7 @@ export default function ProductPage() {
 
 
   useEffect(() => {
-    setCurrentPage(1); // กลับไปหน้าแรกเมื่อ filter เปลี่ยน
+    setCurrentPage(1); 
   }, [searchTerm, categoryFilter]);
 
  
@@ -57,7 +57,7 @@ export default function ProductPage() {
       </h2>
       <div className="h-1 w-24 bg-[#8e44ad] mx-auto rounded-full mb-10"></div> 
 
-      {(searchTerm || categoryFilter) && ( // ถ้ามีคำค้นหรือ category
+      {(searchTerm || categoryFilter) && ( 
         <div className="text-center text-white mb-4">
           <p>
             Showing results for: <strong>{searchTerm || "All"}</strong>{" "}

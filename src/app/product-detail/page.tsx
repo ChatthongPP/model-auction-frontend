@@ -22,7 +22,7 @@ const mockProduct: ProductDetail = {
   name: "onepiece",
   description: "ตะมุตะมิ",
   price: 4455,
-  images: ["", ""],
+  images: ["/onepiece.png", "/onepiece2.png", "/onepiece3.png"],
   seller: "duggud555",
   sellerRating: 4.7,
   startDate: "2025-04-25T12:00:00Z",
@@ -55,9 +55,12 @@ export default function ProductDetailPage() {
   const productId = searchParams.get("id") || "1";
   const [product, setProduct] = useState<ProductDetail | null>(null);
   const [remainingTime, setRemainingTime] = useState("");
+  const [mainImageIndex, setMainImageIndex] = useState(0);
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // ✅ ย้ายมาไว้ใน component
 
   useEffect(() => {
     setProduct(mockProduct);
+    setMainImageIndex(0);
   }, [productId]);
 
   useEffect(() => {
@@ -79,7 +82,7 @@ export default function ProductDetailPage() {
           {/* รูปภาพสินค้า */}
           <div>
             <img
-              src={product.images[0]}
+              src={product.images[mainImageIndex]}
               alt={product.name}
               className="w-full h-auto rounded-xl border border-gray-600"
             />
@@ -89,7 +92,10 @@ export default function ProductDetailPage() {
                   key={i}
                   src={img}
                   alt={`thumb-${i}`}
-                  className="w-16 h-16 object-cover rounded border"
+                  className={`w-16 h-16 object-cover rounded border cursor-pointer ${
+                    i === mainImageIndex ? "ring-2 ring-purple-400" : ""
+                  }`}
+                  onClick={() => setMainImageIndex(i)}
                 />
               ))}
             </div>
@@ -104,17 +110,106 @@ export default function ProductDetailPage() {
             <p className="text-gray-300">{product.description}</p>
 
             <div className="grid grid-cols-2 gap-2 mt-4 text-sm text-gray-200">
-              <p><span className="font-semibold">วันที่ลงประมูล:</span><br />{new Date(product.startDate).toLocaleString("th-TH")}</p>
-              <p><span className="font-semibold">วันสิ้นสุด:</span><br />{new Date(product.endDate).toLocaleString("th-TH")}</p>
-              <p><span className="font-semibold">เวลาคงเหลือ:</span><br /><span className="text-yellow-300">{remainingTime}</span></p>
-              <p><span className="font-semibold">ต่อเวลาอัตโนมัติ:</span><br />{product.autoExtend ? "✅ มี" : "❌ ไม่มี"}</p>
-              <p><span className="font-semibold">ผู้เข้าร่วมประมูล:</span><br />{product.bidderCount.toLocaleString()} คน</p>
-              <p><span className="font-semibold">สถานะ:</span><br /><span className="text-green-400">กำลังประมูล</span></p>
+              <p>
+                <span className="font-semibold">วันที่ลงประมูล:</span>
+                <br />
+                {new Date(product.startDate).toLocaleString("th-TH")}
+              </p>
+              <p>
+                <span className="font-semibold">วันสิ้นสุด:</span>
+                <br />
+                {new Date(product.endDate).toLocaleString("th-TH")}
+              </p>
+              <p>
+                <span className="font-semibold">เวลาคงเหลือ:</span>
+                <br />
+                <span className="text-yellow-300">{remainingTime}</span>
+              </p>
+              <p>
+                <span className="font-semibold">ต่อเวลาอัตโนมัติ:</span>
+                <br />
+                {product.autoExtend ? "✅ มี" : "❌ ไม่มี"}
+              </p>
+              <p>
+                <span className="font-semibold">ผู้เข้าร่วมประมูล:</span>
+                <br />
+                {product.bidderCount.toLocaleString()} คน
+              </p>
+              <p>
+                <span className="font-semibold">สถานะ:</span>
+                <br />
+                <span className="text-green-400">กำลังประมูล</span>
+              </p>
             </div>
 
-            <button className="mt-6 px-6 py-2 bg-[#8e44ad] text-white rounded hover:bg-purple-700 transition w-full">
+            {/* ปุ่มประมูล */}
+            <button
+              className="mt-6 px-6 py-2 bg-[#8e44ad] text-white rounded hover:bg-purple-700 transition w-full"
+              onClick={() => setIsPopupOpen(true)}
+            >
               เข้าร่วมประมูล
             </button>
+
+            {/* Popup */}
+            {isPopupOpen && (
+              <div className="fixed inset-0 bg-opacity-60 flex items-center justify-center z-50">
+                <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 text-black">
+                  <h2 className="text-lg font-semibold mb-2">ประมูล</h2>
+                  <p className="text-sm text-gray-600">
+                    ชื่อสินค้า: onepiece
+                  </p>
+                  
+
+                  <div className="mt-4">
+                    <p className="font-semibold text-red-600">
+                      เวลาคงเหลือ: 0 วัน 01:33:32
+                    </p>
+                    <p>
+                      ข้อมูลผู้ขาย:{" "}
+                      <span className="text-blue-600">duggud555</span> 
+                    </p>
+                    <p className="text-sm mt-2">จำนวนแต้มเครดิตตวามน่าเชื่อถือ : 3 </p>
+                    <p className="text-sm mt-2">ราคาปัจจุบัน: 4400 บาท</p>
+                  </div>
+
+                  <div className="mt-4">
+                    <label className="block text-sm font-medium mb-1">
+                      จำนวนเงินที่ต้องการประมูล
+                    </label>
+                    <input
+                      type="number"
+                      placeholder="เช่น 179500"
+                      className="w-full border rounded px-3 py-2"
+                    />
+                  </div>
+
+                  <div className="mt-4 text-sm text-gray-700">
+                  <p>ราคาสินค้ารวมภาษึ : 4400 </p>
+                    <p>ค่าบริการ: 3%</p>
+                    <p>ค่าจัดส่ง: 35 บาท</p>
+                    <p className="font-semibold text-green-600">
+                      รวมทั้งหมด: 196,553 บาท
+                    </p>
+                  </div>
+
+                  <div className="mt-6 flex justify-between">
+                    <button
+                      onClick={() => setIsPopupOpen(false)}
+                      className="px-4 py-2 bg-gray-300 rounded"
+                    >
+                      ยกเลิก
+                    </button>
+                    <button className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
+                      ยืนยันการประมูล
+                    </button>
+                  </div>
+
+                  <p className="text-xs text-center text-gray-400 mt-4">
+                    หน้านี้จะรีเฟรชอัตโนมัติใน 30 วินาที
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* ประวัติการประมูล */}
@@ -139,8 +234,14 @@ export default function ProductDetailPage() {
         <div className="bg-[#2d1a48] p-6 rounded-xl h-fit shadow-lg">
           <h2 className="text-xl font-bold mb-4">ข้อมูลผู้ขาย</h2>
           <div className="space-y-2 text-sm">
-            <p><span className="font-semibold">ชื่อผู้ขาย:</span> {product.seller}</p>
-            <p><span className="font-semibold">คะแนน:</span> ⭐ {product.sellerRating.toFixed(1)} / 5.0</p>
+            <p>
+              <span className="font-semibold">ชื่อผู้ขาย:</span>{" "}
+              {product.seller}
+            </p>
+            <p>
+              <span className="font-semibold">คะแนน:</span> ⭐{" "}
+              {product.sellerRating.toFixed(1)} / 5.0
+            </p>
           </div>
           <div className="mt-6">
             <button className="w-full px-4 py-2 bg-purple-600 rounded hover:bg-purple-700 transition">
