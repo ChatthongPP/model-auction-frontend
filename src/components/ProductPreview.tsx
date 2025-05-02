@@ -13,6 +13,10 @@ export default function ProductPreview() {
     router.push(`/product?category=${value}`);
   };
 
+  const handleProductClick = (id: number) => {
+    router.push(`/product-detail?id=${id}`);
+  };
+
   return (
     <>
       <div className="h-2 bg-[#8e44ad] mx-auto rounded-full" />
@@ -39,6 +43,7 @@ export default function ProductPreview() {
             </button>
           ))}
         </div>
+
         {/* สินค้าแนะนำ */}
         <h2 className="text-3xl font-bold mb-2 text-center">สินค้า</h2>
         <div className="h-1 w-24 bg-[#8e44ad] mx-auto rounded-full mb-10"></div>
@@ -49,7 +54,8 @@ export default function ProductPreview() {
             return (
               <div
                 key={id}
-                className="bg-[#3d2075] border border-[#8e44ad] p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105"
+                onClick={() => handleProductClick(id)}
+                className="cursor-pointer bg-[#3d2075] border border-[#8e44ad] p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105"
               >
                 <div className="h-40 bg-[#4c2882] mb-4 rounded" />
                 <h3 className="font-semibold text-white text-lg">

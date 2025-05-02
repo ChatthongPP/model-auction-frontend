@@ -73,7 +73,7 @@ export default function Hero() {
             ขั้นตอนการประมูลสินค้า
           </Link>
           <Link
-            href="/how-to-bid"
+            href="/how-to-seller"
             className="bg-gradient-to-r from-[#6a0dad] to-[#9b59b6] hover:from-[#9b59b6] hover:to-pink-400 text-white font-bold py-2 px-6 rounded-2xl shadow-md"
           >
             ขั้นตอนการลงประมูลสินค้า
@@ -92,7 +92,7 @@ export default function Hero() {
             วิธีเติมเงิน
           </Link>
           <Link
-            href="/contact"
+            href="/contact-chat"
             className="bg-gradient-to-r from-[#6a0dad] to-[#9b59b6] hover:from-[#9b59b6] hover:to-pink-400 text-white font-bold py-2 px-6 rounded-2xl shadow-md"
           >
             ติดต่อเรา

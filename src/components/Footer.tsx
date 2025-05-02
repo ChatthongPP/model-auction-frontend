@@ -23,7 +23,7 @@ export default function Footer() {
           <div>
             <h3 className="text-xl font-bold mb-4 text-pink-300">Auction Web</h3>
             <div className="flex flex-col gap-2 text-white text-sm">
-              <Link href="/contact" className="hover:text-pink-300 transition">ติดต่อเรา</Link>
+              <Link href="/contact-chat" className="hover:text-pink-300 transition">ติดต่อเรา</Link>
               <Link href="/privacy-policy" className="hover:text-pink-300 transition">นโยบายความเป็นส่วนตัว</Link>
               <Link href="/terms-and-conditions" className="hover:text-pink-300 transition">ข้อตกลงและเงื่อนไข</Link>
             </div>
