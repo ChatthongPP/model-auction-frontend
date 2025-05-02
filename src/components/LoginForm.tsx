@@ -1,44 +1,31 @@
-"use client";
-
 import { useState } from "react";
+import { login } from "@/services/authService";
 
 interface LoginFormProps {
-  setActiveModal: React.Dispatch<React.SetStateAction<"login" | "register" |null>>;
+  setActiveModal: React.Dispatch<
+    React.SetStateAction<"login" | "register" | null>
+  >;
+  onLoginSuccess: () => void;
 }
 
-export default function LoginForm({ setActiveModal }: LoginFormProps) {
+export default function LoginForm({
+  setActiveModal,
+  onLoginSuccess,
+}: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     try {
-      const res = await fetch("http://localhost:5555/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-  
-      if (!res.ok) {
-        const errorData = await res.json();
-        alert(errorData.message || "เข้าสู่ระบบไม่สำเร็จ");
-        return;
-      }
-  
-      const data = await res.json();
-      console.log("เข้าสู่ระบบสำเร็จ", data);
-  
-      // เช่น บันทึก token
-      localStorage.setItem("token", data.token);
-  
-      // ปิด modal หรือ redirect ก็ได้
-      setActiveModal(null);
+      await login(email, password);
+      onLoginSuccess();
     } catch (error) {
+      console.log("login-error", error);
       alert("เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ");
     }
   };
-  
 
   return (
     <div>

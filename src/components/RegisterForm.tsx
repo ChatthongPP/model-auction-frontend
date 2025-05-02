@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { register } from "@/services/authService";
+import { UserRequest } from "@/types/authTypes";
 
 interface RegisterFormProps {
   setActiveModal: React.Dispatch<
@@ -14,11 +16,11 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
     email: "",
     password: "",
     confirmPassword: "",
-    first_name: "",
-    last_name: "",
+    firstName: "",
+    lastName: "",
     gender: "",
-    phone_number: "",
-    citizen_id: "",
+    phoneNumber: "",
+    citizenId: "",
     zipcode: "",
     address: "",
     subDistrict: "",
@@ -44,32 +46,21 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
 
     setErrorMessage("");
 
-    const fullAddress =
-      `${formData.address}, ต.${formData.subDistrict}, อ.${formData.district}, จ.${formData.province}`.trim();
-
-    const finalFormData = {
-      ...formData,
-      address: fullAddress,
+    const finalFormData: UserRequest = {
+      email: formData.email,
+      password: formData.password,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      gender: formData.gender,
+      phoneNumber: formData.phoneNumber,
+      citizenId: formData.citizenId,
+      address: formData.address,
+      roleId: 3,
     };
 
     try {
-      const res = await fetch("http://localhost:5555/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(finalFormData),
-      });
+      await register(finalFormData);
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        Swal.fire({
-          icon: "error",
-          title: "เกิดข้อผิดพลาด",
-          text: errorData.message || "ไม่สามารถสมัครสมาชิกได้",
-        });
-        return;
-      }
-
-      const data = await res.json();
       Swal.fire({
         icon: "success",
         title: "สมัครสมาชิกสำเร็จ",
@@ -78,11 +69,17 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
       }).then(() => {
         setActiveModal("login");
       });
-    } catch (err) {
+    } catch (err: unknown) {
+      let errorMessage = "ไม่สามารถสมัครสมาชิกได้";
+
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+
       Swal.fire({
         icon: "error",
-        title: "การเชื่อมต่อล้มเหลว",
-        text: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้",
+        title: "เกิดข้อผิดพลาด",
+        text: errorMessage,
       });
     }
   };
@@ -124,9 +121,9 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
           </label>
           <input
             type="text"
-            name="first_name"
+            name="firstName"
             placeholder="First Name"
-            value={formData.first_name}
+            value={formData.firstName}
             onChange={handleChange}
             className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
@@ -140,9 +137,9 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
           </label>
           <input
             type="text"
-            name="last_name"
+            name="lastName"
             placeholder="Last Name"
-            value={formData.last_name}
+            value={formData.lastName}
             onChange={handleChange}
             className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
@@ -207,25 +204,9 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
           </label>
           <input
             type="tel"
-            name="phone_number"
+            name="phoneNumber"
             placeholder="เบอร์โทรศัพท์"
-            value={formData.phone_number}
-            onChange={handleChange}
-            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
-            required
-          />
-        </div>
-
-        {/* Zipcode */}
-        <div className="flex flex-col">
-          <label className="text-sm text-white mb-1">
-            <span className="text-red-500">*</span> รหัสไปรษณีย์:
-          </label>
-          <input
-            type="text"
-            name="zipcode"
-            placeholder="รหัสไปรษณีย์"
-            value={formData.zipcode}
+            value={formData.phoneNumber}
             onChange={handleChange}
             className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
@@ -239,9 +220,9 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
           </label>
           <input
             type="text"
-            name="citizen_id"
+            name="citizenId"
             placeholder="เลขบัตรประชาชน"
-            value={formData.citizen_id}
+            value={formData.citizenId}
             onChange={handleChange}
             className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
@@ -251,7 +232,7 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
         {/* Address */}
         <div className="flex flex-col md:col-span-2">
           <label className="text-sm text-white mb-1">
-            <span className="text-red-500">*</span> บ้านเลขที่ / หมู่บ้าน:
+            <span className="text-red-500">*</span> ที่อยู่:
           </label>
           <input
             type="text"
@@ -261,45 +242,6 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
             onChange={handleChange}
             className="border border-pink-300 rounded-lg px-4 py-2 text-white"
             required
-          />
-        </div>
-
-        {/* Sub-district */}
-        <div className="flex flex-col">
-          <label className="text-sm text-white mb-1">แขวง/ตำบล:</label>
-          <input
-            type="text"
-            name="subDistrict"
-            placeholder="แขวง/ตำบล"
-            value={formData.subDistrict}
-            onChange={handleChange}
-            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
-          />
-        </div>
-
-        {/* District */}
-        <div className="flex flex-col">
-          <label className="text-sm text-white mb-1">เขต/อำเภอ:</label>
-          <input
-            type="text"
-            name="district"
-            placeholder="เขต/อำเภอ"
-            value={formData.district}
-            onChange={handleChange}
-            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
-          />
-        </div>
-
-        {/* Province */}
-        <div className="flex flex-col md:col-span-2">
-          <label className="text-sm text-white mb-1">จังหวัด:</label>
-          <input
-            type="text"
-            name="province"
-            placeholder="จังหวัด"
-            value={formData.province}
-            onChange={handleChange}
-            className="border border-pink-300 rounded-lg px-4 py-2 text-white"
           />
         </div>
 
