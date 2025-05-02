@@ -6,18 +6,18 @@ export function useProfile() {
   const [user, setUser] = useState<UserType | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const profileData = await getProfile();
-        setUser(profileData);
-      } catch (error) {
-        console.error("โหลดโปรไฟล์ล้มเหลว", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchProfile = async () => {
+    try {
+      const profileData = await getProfile();
+      setUser(profileData);
+    } catch (error) {
+      console.error("โหลดโปรไฟล์ล้มเหลว", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchProfile();
   }, []);
 

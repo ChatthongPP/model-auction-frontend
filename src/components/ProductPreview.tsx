@@ -1,17 +1,27 @@
 "use client";
+import { useCategory } from "@/hooks/useCategory";
+import { useProduct } from "@/hooks/useProduct";
+import { ProductQueryParams } from "@/types/productTypes";
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 
 export default function ProductPreview() {
   const router = useRouter();
-  const categories = [
-    { id: 1, name: "โมเดล", value: "model", image: "/model.jpg" },
-    { id: 2, name: "ฟิกเกอร์", value: "figurine", image: "/figur.jpg" },
-    { id: 3, name: "อาร์ททอย", value: "arttoy", image: "/arttoy.png" },
-  ];
+  const { categories } = useCategory();
+  const params = useMemo<ProductQueryParams>(
+    () => ({
+      current_page: 1,
+      limit: 12,
+      order_by: "id",
+      order: "desc",
+    }),
+    []
+  );
+  const { products } = useProduct(params);
 
-  const handleCategoryClick = (value: string) => {
-    router.push(`/product?category=${value}`);
-  };
+  // const handleCategoryClick = (value: string) => {
+  //   router.push(`/product?category=${value}`);
+  // };
 
   const handleProductClick = (id: number) => {
     router.push(`/product-detail?id=${id}`);
@@ -28,7 +38,7 @@ export default function ProductPreview() {
           {categories.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => handleCategoryClick(cat.value)}
+              // onClick={() => handleCategoryClick(cat.value)}
               className="w-28 text-center focus:outline-none"
               aria-label={`View products in ${cat.name} category`}
             >
@@ -49,22 +59,21 @@ export default function ProductPreview() {
         <div className="h-1 w-24 bg-[#8e44ad] mx-auto rounded-full mb-10"></div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-          {[...Array(12).keys()].map((i) => {
-            const id = i + 1;
+          {products.map((product) => {
             return (
               <div
-                key={id}
-                onClick={() => handleProductClick(id)}
+                key={product.id}
+                onClick={() => handleProductClick(product.id)}
                 className="cursor-pointer bg-[#3d2075] border border-[#8e44ad] p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105"
               >
                 <div className="h-40 bg-[#4c2882] mb-4 rounded" />
                 <h3 className="font-semibold text-white text-lg">
-                  Product #{id}
+                  Product #{product.id}
                 </h3>
-                <p className="text-sm text-gray-400 mt-1">
-                  This is a brief description.
+                <p className="text-sm text-gray-400 mt-1">{product.name}</p>
+                <p className="text-[#f4c2c2] font-bold mt-3">
+                  ${product.actualPrice}
                 </p>
-                <p className="text-[#f4c2c2] font-bold mt-3">$99.00</p>
               </div>
             );
           })}

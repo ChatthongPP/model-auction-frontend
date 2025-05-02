@@ -18,8 +18,8 @@ export default function Hero() {
   };
 
   return (
-    <section className="bg-gradient-to-b from-[#1f0a38] via-[#5c2f8b] to-[#1f0a38] py-20 relative">ั
-      {/* ส่วนหัว */}
+    <section className="bg-gradient-to-b from-[#1f0a38] via-[#5c2f8b] to-[#1f0a38] py-20 relative">
+      ั{/* ส่วนหัว */}
       <div className="text-center">
         <h1 className="text-5xl font-bold text-white mb-4 drop-shadow-md">
           Welcome to MarketPlace
@@ -28,7 +28,6 @@ export default function Hero() {
           ค้นหาของสะสมที่คุณชื่นชอบ
         </p>
 
-        {/* Search + Dropdown + Cart */}
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-10">
           <input
             type="text"
@@ -47,7 +46,7 @@ export default function Hero() {
             <option value="model">โมเดล</option>
             <option value="figurine">ฟิกเกอร์</option>
           </select>
-<button
+          <button
             onClick={handleSearch}
             className="bg-[#9b59b6] hover:bg-pink-400 text-white font-bold py-2 px-4 rounded-2xl shadow-md"
           >
@@ -59,13 +58,10 @@ export default function Hero() {
             className="bg-[#9b59b6] hover:bg-pink-400 text-white font-bold py-2 px-4 rounded-2xl shadow-md flex items-center gap-2"
           >
             <ShoppingCart size={25} />
-            
           </Link>
         </div>
 
-        {/* ปุ่มเมนูหลักด้านล่าง */}
         <div className="flex flex-wrap justify-center gap-4">
-         
           <Link
             href="/how-to-bid"
             className="bg-gradient-to-r from-[#6a0dad] to-[#9b59b6] hover:from-[#9b59b6] hover:to-pink-400 text-white font-bold py-2 px-6 rounded-2xl shadow-md"
@@ -84,7 +80,7 @@ export default function Hero() {
           >
             วิธีการสมัครสมาชิก
           </Link>
-          
+
           <Link
             href="/how-to-topup"
             className="bg-gradient-to-r from-[#6a0dad] to-[#9b59b6] hover:from-[#9b59b6] hover:to-pink-400 text-white font-bold py-2 px-6 rounded-2xl shadow-md"
