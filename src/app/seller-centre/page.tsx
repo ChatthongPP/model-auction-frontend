@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, Fragment } from "react";
+import Link from "next/link";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   PlusCircle,
@@ -29,22 +30,24 @@ export default function SellerCentre() {
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">Seller Centre</h1>
           <div className="flex gap-3">
-            <button
-              onClick={() => setShowModal("meProduct")}
-              className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-200"
-              aria-label="ดูสินค้าของฉัน"
-            >
-              <PlusCircle size={20} />
-              สินค้าของฉัน
-            </button>
-            <button
-              onClick={() => setShowModal("addProduct")}
-              className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-200"
-              aria-label="เพิ่มสินค้าใหม่"
-            >
-              <PlusCircle size={20} />
-              เพิ่มสินค้าใหม่
-            </button>
+            <Link href="/my-product">
+              <button
+                className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-200"
+                aria-label="ดูสินค้าของฉัน"
+              >
+                <PlusCircle size={20} />
+                สินค้าของฉัน
+              </button>
+            </Link>
+            <Link href="/add-product">
+              <button
+                className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-200"
+                aria-label="เพิ่มสินค้าใหม่"
+              >
+                <PlusCircle size={20} />
+                เพิ่มสินค้าใหม่
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -117,21 +120,6 @@ export default function SellerCentre() {
         </div>
 
         {/* Popup Modals */}
-        <SellerModal
-          isOpen={showModal === "meProduct"}
-          onClose={() => setShowModal(null)}
-          title="สินค้าของฉัน"
-        >
-          <p>แบบฟอร์มสินค้าของฉันจะอยู่ที่นี่...</p>
-        </SellerModal>
-        <SellerModal
-          isOpen={showModal === "addProduct"}
-          onClose={() => setShowModal(null)}
-          title="เพิ่มสินค้าใหม่"
-        >
-          <p>แบบฟอร์มเพิ่มสินค้าใหม่จะอยู่ที่นี่...</p>
-        </SellerModal>
-
         <SellerModal
           isOpen={showModal === "active"}
           onClose={() => setShowModal(null)}
