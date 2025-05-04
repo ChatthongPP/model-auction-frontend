@@ -40,7 +40,7 @@ export default function UserInfo() {
               <Home size={20} className="text-pink-400" />
               <span className="font-medium">ที่อยู่:</span> {user.address}
             </div>
-          </div>
+          </div> 
         </div>
       </div>
     </div>

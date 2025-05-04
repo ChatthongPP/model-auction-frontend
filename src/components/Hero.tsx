@@ -16,7 +16,6 @@ export default function Hero() {
     if (search.trim()) params.set("search", search.trim());
     if (category) params.set("category", category);
     const query = params.toString();
-    // เพิ่ม ? ถ้ามีพารามิเตอร์, ถ้าไม่มีให้ไปที่ /product
     router.push(query ? `/product?${query}` : "/product");
   };
 
