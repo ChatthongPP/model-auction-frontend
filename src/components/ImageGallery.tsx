@@ -13,12 +13,12 @@ export default function ImageGallery({ product }: Props) {
   return (
     <div>
       <img
-        src={product.images[mainImageIndex]}
+        src={product.image[mainImageIndex]}
         alt={product.name}
         className="w-full h-auto rounded-xl border border-gray-600"
       />
       <div className="flex mt-4 gap-2">
-        {product.images.map((img, i) => (
+        {product.image.map((img, i) => (
           <img
             key={i}
             src={img}

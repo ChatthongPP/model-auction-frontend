@@ -5,10 +5,8 @@ import { ProductQueryParams } from "@/types/productTypes";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import ProductCard from "./ProductCard";
-// import ProductCard from "./ProductCard";
 
 export default function ProductPreview() {
-  console.log("products");
   const router = useRouter();
   const { categories } = useCategory();
 
@@ -70,20 +68,6 @@ export default function ProductPreview() {
                 product={product}
                 handleProductClick={handleProductClick}
               />
-              // <div
-              //   key={product.id}
-              //   onClick={() => handleProductClick(product.id)}
-              //   className="cursor-pointer bg-[#3d2075] border border-[#8e44ad] p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105"
-              // >
-              //   <div className="h-40 bg-[#4c2882] mb-4 rounded" />
-              //   <h3 className="font-semibold text-white text-lg">
-              //     Product #{product.id}
-              //   </h3>
-              //   <p className="text-sm text-gray-400 mt-1">{product.name}</p>
-              //   <p className="text-[#f4c2c2] font-bold mt-3">
-              //     ${product.actualPrice}
-              //   </p>
-              // </div>
             );
           })}
         </div>

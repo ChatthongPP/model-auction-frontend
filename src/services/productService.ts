@@ -9,11 +9,7 @@ import {
 export const getProducts = async (
   params: ProductQueryParams = {}
 ): Promise<ProductResponse | null> => {
-  // const token = localStorage.getItem("authToken");
-  // if (!token) return null;
-
   const response = await apiClient.get("/products", {
-    // headers: { Authorization: `Bearer ${token}` },
     params,
   });
 
@@ -65,7 +61,7 @@ export const getProductById = async (
       name: rawProduct.name,
       description: rawProduct.description,
       sellerName: rawProduct.seller_name,
-      images: [],
+      image: rawProduct.image,
       categoryId: rawProduct.category_id,
       sellerId: rawProduct.seller_id,
       actualPrice: rawProduct.actual_price,
@@ -86,4 +82,44 @@ export const getProductById = async (
     console.error("Error fetching product by ID:", error);
     return null;
   }
+};
+
+export const createProduct = async (
+  productData: Omit<ProductDB, "id" | "created_at" | "updated_at">
+): Promise<Product | null> => {
+  const token = localStorage.getItem("authToken");
+  if (!token) return null;
+
+  // try {
+  const response = await apiClient.post("/products", productData, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  const rawProduct = response.data.data;
+
+  const product: Product = {
+    id: rawProduct.id,
+    name: rawProduct.name,
+    description: rawProduct.description,
+    image: rawProduct.image,
+    categoryId: rawProduct.category_id,
+    sellerId: rawProduct.seller_id,
+    actualPrice: rawProduct.actual_price,
+    startingBidPrice: rawProduct.starting_bid_price,
+    currentBidPrice: rawProduct.current_bid_price,
+    minimumBidIncrement: rawProduct.minimum_bid_increment,
+    shippingPrice: rawProduct.shipping_price,
+    serviceFee: rawProduct.service_fee,
+    auctionStartTime: rawProduct.auction_start_time,
+    auctionEndTime: rawProduct.auction_end_time,
+    status: rawProduct.status,
+    createdAt: rawProduct.created_at,
+    updatedAt: rawProduct.updated_at,
+  };
+
+  return product;
+  // } catch (error) {
+  //   console.error("Error creating product:", error);
+  //   return null;
+  // }
 };

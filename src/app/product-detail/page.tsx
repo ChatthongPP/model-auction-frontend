@@ -1,12 +1,12 @@
 "use client";
 import BidHistory from "@/components/BidHistory";
+import ImageGallery from "@/components/ImageGallery";
 import ProductDetail from "@/components/ProductDetail";
 import { useBid } from "@/hooks/useBid";
 import { useProductById } from "@/hooks/useProductById";
 import { BidQueryParams } from "@/types/bidTypes";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
-// import { useEffect, useState } from "react";
 
 export default function ProductDetailPage() {
   const searchParams = useSearchParams();
@@ -53,11 +53,7 @@ export default function ProductDetailPage() {
     <div className="max-w-7xl mx-auto px-6 py-10 bg-gradient-to-b from-[#1f0a38] to-[#5c2f8b] text-white">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          {/* <ImageGallery
-            images={product.images}
-            mainImageIndex={mainImageIndex}
-            setMainImageIndex={setMainImageIndex}
-          /> */}
+          {product && <ImageGallery product={product} />}
           {product && (
             <ProductDetail
               product={product}

@@ -43,7 +43,6 @@ export const useProduct = (queryParams: ProductQueryParams = {}) => {
   };
 
   useEffect(() => {
-    console.log("useEffect");
     fetchProducts(queryParams);
   }, [queryParams]);
 

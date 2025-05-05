@@ -2,19 +2,17 @@ import { Product } from "@/types/productTypes";
 import React from "react";
 
 interface ProductCardProps {
-  key: number;
   product: Product;
   handleProductClick: (id: number) => void;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
-  key,
   product,
   handleProductClick,
 }) => {
   return (
     <div
-      key={key}
+      key={product.id}
       onClick={() => handleProductClick(product.id)}
       className="cursor-pointer bg-[#3d2075] border border-[#8e44ad] p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105"
     >

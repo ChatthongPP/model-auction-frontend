@@ -17,13 +17,8 @@ export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token && isLoggedIn) {
-      setIsLoggedIn(true);
-      const role = getRoleIdFromToken(token);
-      setRoleId(role);
-    }
-  }, [isLoggedIn]);
+    handleLoginSuccess();
+  }, []);
 
   const closeModal = () => setActiveModal(null);
 
@@ -31,6 +26,8 @@ export default function Header() {
     const token = localStorage.getItem("authToken");
     if (token) {
       setIsLoggedIn(true);
+      const role = getRoleIdFromToken(token);
+      setRoleId(role);
     }
     closeModal();
   };

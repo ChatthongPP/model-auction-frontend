@@ -3,13 +3,16 @@
 import { useState, useMemo, useEffect } from "react";
 import { PlusCircle } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { Product, ProductQueryParams } from "@/types/productTypes";
+import { Product, ProductSellerQueryParams } from "@/types/productTypes";
 import { useProduct } from "@/hooks/useProduct";
 import { getUserIdFromToken } from "@/utils/authUtils";
+import AddProductModal from "@/components/AddProductModal";
+import { useRouter } from "next/navigation";
 
 export default function SellerCentre() {
+  const router = useRouter();
   const [showAddProductModal, setShowAddProductModal] = useState(false);
-  const [userId, setUserId] = useState<number | null>(null);
+  const [userId, setUserId] = useState<number>();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | Product["status"]>(
@@ -25,25 +28,56 @@ export default function SellerCentre() {
   //   return matchSearch && matchStatus;
   // });
 
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      const id = getUserIdFromToken(token);
-      setUserId(id);
-    }
-  }, [userId]);
+  // const params = useMemo<ProductSellerQueryParams>(
+  //   () => ({
+  //     seller_id: userId,
+  //     current_page: 1,
+  //     limit: 12,
+  //     order_by: "id",
+  //     order: "desc",
+  //   }),
+  //   [userId]
+  // );
 
-  const params = useMemo<ProductQueryParams>(
-    () => ({
-      seller_id: userId ?? undefined,
+  const params = useMemo<ProductSellerQueryParams | undefined>(() => {
+    if (!userId) return undefined;
+    return {
+      seller_id: userId,
       current_page: 1,
       limit: 12,
       order_by: "id",
       order: "desc",
-    }),
-    []
-  );
-  const { products } = useProduct(params);
+    };
+  }, [userId]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      const id = getUserIdFromToken(token);
+      if (id) {
+        setUserId(id);
+      }
+    }
+  }, []);
+
+  const handleProductClick = (id: number) => {
+    router.push(`/product-detail?id=${id}`);
+  };
+
+  const { products, goToPage } = useProduct(params);
+
+  if (!userId) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white">
+        กำลังโหลดข้อมูลผู้ใช้...
+      </div>
+    );
+  }
+
+  const onCloseAddProductModal = () => {
+    setShowAddProductModal(false);
+    goToPage(params?.current_page ?? 1);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1f0a38] to-[#5c2f8b] py-10 px-6 text-white">
@@ -106,9 +140,7 @@ export default function SellerCentre() {
             <ProductCard
               key={product.id}
               product={product}
-              handleProductClick={() =>
-                console.log(`Product ID: ${product.id}`)
-              }
+              handleProductClick={() => handleProductClick(product.id)}
             />
           ))}
 
@@ -120,53 +152,11 @@ export default function SellerCentre() {
         </div>
       </div>
       {showAddProductModal && (
-        <AddProductModal onClose={() => setShowAddProductModal(false)} />
+        <AddProductModal
+          sellerId={userId ?? 0}
+          onClose={onCloseAddProductModal}
+        />
       )}
-    </div>
-  );
-}
-
-export function AddProductModal({ onClose }: { onClose: () => void }) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white text-gray-900 rounded-xl shadow-xl w-full max-w-lg p-6 space-y-4">
-        <h2 className="text-2xl font-bold">เพิ่มสินค้าใหม่</h2>
-
-        <div className="space-y-2">
-          <input
-            type="text"
-            placeholder="ชื่อสินค้า"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
-          />
-          <input
-            type="number"
-            placeholder="ราคา"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
-          />
-          <textarea
-            placeholder="รายละเอียดสินค้า"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
-          ></textarea>
-        </div>
-
-        <div className="flex justify-end gap-2">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-          >
-            ยกเลิก
-          </button>
-          <button
-            onClick={() => {
-              // TODO: handleSubmit();
-              onClose();
-            }}
-            className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-          >
-            บันทึก
-          </button>
-        </div>
-      </div>
     </div>
   );
 }

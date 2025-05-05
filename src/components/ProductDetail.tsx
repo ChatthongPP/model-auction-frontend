@@ -129,7 +129,7 @@ export default function ProductDetail({
         <p>
           <span className="font-semibold">ผู้ขาย:</span>
           <br />
-          ID: {product.sellerId}
+          ID: {product.sellerName}
         </p>
       </div>
 
