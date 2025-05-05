@@ -2,13 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { Product } from "@/types/productTypes";
+import { Bid } from "@/types/bidTypes"; // Adjust the path if necessary
+import { getUserIdFromToken } from "@/utils/authUtils";
+import { createBid } from "@/services/bidService";
 
 interface Props {
   product: Product;
+  onSubmitBidSuccess: () => void;
 }
 
-export default function ProductDetail({ product }: Readonly<Props>) {
+export default function ProductDetail({
+  product,
+  onSubmitBidSuccess,
+}: Readonly<Props>) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [bidAmount, setBidAmount] = useState<number>(0);
   const [remainingTime, setRemainingTime] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -41,7 +49,49 @@ export default function ProductDetail({ product }: Readonly<Props>) {
     const serviceFee = basePrice * (product.serviceFee / 100);
     const shipping = product.shippingPrice;
     setTotalPrice(Math.round(basePrice + serviceFee + shipping));
+    setBidAmount(basePrice + product.minimumBidIncrement);
   }, [product]);
+
+  const isValidBid = (bidAmount: number) => {
+    const currentPrice = product.currentBidPrice ?? product.startingBidPrice;
+    return bidAmount >= currentPrice + product.minimumBidIncrement;
+  };
+
+  const submitBid = async (bidAmount: number) => {
+    if (!isValidBid(bidAmount)) {
+      alert(
+        `จำนวนเงินที่ต้องการประมูลต้องมากกว่า ${
+          (product.currentBidPrice ?? product.startingBidPrice) +
+          product.minimumBidIncrement
+        }`
+      );
+      return;
+    }
+
+    const authToken = localStorage.getItem("authToken");
+    const userId = authToken ? getUserIdFromToken(authToken) : null;
+    if (!userId) {
+      alert("กรุณาเข้าสู่ระบบก่อนทำการประมูล");
+      return;
+    }
+
+    const bidData: Bid = {
+      productId: product.id,
+      userId: userId,
+      bidAmount: bidAmount,
+    };
+
+    try {
+      await createBid(bidData);
+      setIsPopupOpen(false);
+      onSubmitBidSuccess();
+    } catch (error) {
+      console.error("Error placing bid:", error);
+      alert("ไม่สามารถประมูลได้ กรุณาลองใหม่อีกครั้ง");
+    }
+
+    console.log("Bid placed successfully!");
+  };
 
   return (
     <div className="bg-[#2d1a48] p-6 rounded-xl space-y-3 text-white">
@@ -101,11 +151,12 @@ export default function ProductDetail({ product }: Readonly<Props>) {
                 เวลาคงเหลือ: {remainingTime}
               </p>
               <p>
-                ผู้ขาย ID:{" "}
-                <span className="text-blue-600">{product.sellerId}</span>
+                ชื่อผู้ขาย:{" "}
+                <span className="text-blue-600">{product.sellerName}</span>
               </p>
               <p className="text-sm mt-2">
-                ราคาปัจจุบัน: ฿{product.currentBidPrice.toLocaleString()}
+                ราคาปัจจุบัน: ฿
+                {product.currentBidPrice ?? product.startingBidPrice}
               </p>
             </div>
 
@@ -117,6 +168,8 @@ export default function ProductDetail({ product }: Readonly<Props>) {
                 type="number"
                 placeholder={`อย่างน้อย +${product.minimumBidIncrement}`}
                 className="w-full border rounded px-3 py-2"
+                onChange={(e) => setBidAmount(Number(e.target.value))}
+                value={bidAmount}
               />
             </div>
 
@@ -135,7 +188,10 @@ export default function ProductDetail({ product }: Readonly<Props>) {
               >
                 ยกเลิก
               </button>
-              <button className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
+              <button
+                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                onClick={() => submitBid(bidAmount)}
+              >
                 ยืนยันการประมูล
               </button>
             </div>

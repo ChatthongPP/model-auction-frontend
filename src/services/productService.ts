@@ -9,11 +9,11 @@ import {
 export const getProducts = async (
   params: ProductQueryParams = {}
 ): Promise<ProductResponse | null> => {
-  const token = localStorage.getItem("authToken");
-  if (!token) return null;
+  // const token = localStorage.getItem("authToken");
+  // if (!token) return null;
 
   const response = await apiClient.get("/products", {
-    headers: { Authorization: `Bearer ${token}` },
+    // headers: { Authorization: `Bearer ${token}` },
     params,
   });
 
@@ -64,6 +64,7 @@ export const getProductById = async (
       id: rawProduct.id,
       name: rawProduct.name,
       description: rawProduct.description,
+      sellerName: rawProduct.seller_name,
       images: [],
       categoryId: rawProduct.category_id,
       sellerId: rawProduct.seller_id,

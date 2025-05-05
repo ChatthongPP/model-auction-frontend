@@ -1,13 +1,32 @@
 "use client";
+import BidHistory from "@/components/BidHistory";
 import ProductDetail from "@/components/ProductDetail";
+import { useBid } from "@/hooks/useBid";
 import { useProductById } from "@/hooks/useProductById";
+import { BidQueryParams } from "@/types/bidTypes";
 import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 // import { useEffect, useState } from "react";
 
 export default function ProductDetailPage() {
   const searchParams = useSearchParams();
   const productId = parseInt(searchParams.get("id") || "1", 10);
-  const { product, loading } = useProductById(productId);
+  const { product, loading: loadingProductById } = useProductById(productId);
+  const params = useMemo<BidQueryParams>(
+    () => ({
+      current_page: 1,
+      limit: 12,
+      order_by: "id",
+      order: "desc",
+      product_id: productId,
+    }),
+    []
+  );
+  const { bids, loading: loadingBid, goToPage } = useBid(params);
+
+  const onSubmitBidSuccess = () => {
+    goToPage(params.current_page ?? 1);
+  };
 
   // const [remainingTime, setRemainingTime] = useState("");
   // const [mainImageIndex, setMainImageIndex] = useState(0);
@@ -25,7 +44,7 @@ export default function ProductDetailPage() {
   //   return () => clearInterval(interval);
   // }, [product]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loadingProductById || loadingBid) return <p>Loading...</p>;
   // if (notFound) return <p>ไม่พบสินค้าที่คุณต้องการ</p>;
 
   // const totalPrice = product.price + product.price * 0.03 + 35;
@@ -42,11 +61,12 @@ export default function ProductDetailPage() {
           {product && (
             <ProductDetail
               product={product}
+              onSubmitBidSuccess={onSubmitBidSuccess}
               // remainingTime={remainingTime}
               // totalPrice={totalPrice}
             />
           )}
-          {/* <BidHistory bidHistory={product.bidHistory} /> */}
+          <BidHistory bids={bids} />
         </div>
 
         {/* <SellerInfo seller={product.seller} rating={product.sellerRating} /> */}

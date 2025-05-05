@@ -13,9 +13,9 @@ export default function Hero() {
   const handleSearch = () => {
     const params = new URLSearchParams();
     if (search.trim()) params.set("search", search.trim());
-    if (category) params.set("category", category);
+    if (category) params.set("category_id", category);
     const query = params.toString();
-    // เพิ่ม ? ถ้ามีพารามิเตอร์, ถ้าไม่มีให้ไปที่ /product
+
     router.push(query ? `/product?${query}` : "/product");
   };
 
@@ -47,15 +47,15 @@ export default function Hero() {
             aria-label="ค้นหาสินค้า"
           />
           <select
-            value={category}
+            value={"category_id"}
             onChange={(e) => setCategory(e.target.value)}
             className="px-4 py-2 text-gray-300 bg-[#2d1459] rounded-md border border-[#9b59b6] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#9b59b6]"
             aria-label="เลือกหมวดหมู่สินค้า"
           >
             <option value="">เลือกหมวดหมู่</option>
-            <option value="arttoy">อาร์ตทอย</option>
-            <option value="model">โมเดล</option>
-            <option value="figurine">ฟิกเกอร์</option>
+            <option value="2">อาร์ตทอย</option>
+            <option value="1">โมเดล</option>
+            <option value="3">ฟิกเกอร์</option>
           </select>
           <button
             onClick={handleSearch}

@@ -13,6 +13,7 @@ interface RegisterFormProps {
 
 export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
   const [formData, setFormData] = useState({
+    roleId: "3",
     email: "",
     password: "",
     confirmPassword: "",
@@ -55,7 +56,7 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
       phoneNumber: formData.phoneNumber,
       citizenId: formData.citizenId,
       address: formData.address,
-      roleId: 3,
+      roleId: Number(formData.roleId),
     };
 
     try {
@@ -98,8 +99,24 @@ export default function RegisterForm({ setActiveModal }: RegisterFormProps) {
         onSubmit={handleSubmit}
         className="grid grid-cols-1 md:grid-cols-2 gap-4"
       >
+        <div className="flex flex-col">
+          <label className="text-sm text-white mb-1">
+            <span className="text-red-500">*</span> บทบาท:
+          </label>
+          <select
+            name="roleId"
+            value={formData.roleId}
+            onChange={handleChange}
+            className="border border-pink-300 rounded-lg px-4 py-2 text-white bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-400"
+            required
+          >
+            <option value="3">Bidder</option>
+            <option value="4">Seller</option>
+          </select>
+        </div>
+
         {/* Email */}
-        <div className="flex flex-col md:col-span-2">
+        <div className="flex flex-col">
           <label className="text-sm text-white mb-1">
             <span className="text-red-500">*</span> อีเมล์:
           </label>

@@ -4,6 +4,7 @@ export interface ProductDB {
   description: string;
   category_id: number;
   seller_id: number;
+  seller_name: string;
   actual_price: number;
   starting_bid_price: number;
   current_bid_price: number;
@@ -24,6 +25,7 @@ export interface Product {
   images: string[];
   categoryId: number;
   sellerId: number;
+  sellerName: string;
   actualPrice: number;
   startingBidPrice: number;
   currentBidPrice: number;
@@ -51,6 +53,7 @@ export interface ProductQueryParams {
   order_by?: string;
   order?: "asc" | "desc";
   search?: string;
-  category_id?: string;
+  category_id?: number;
+  seller_id?: number;
   status?: string;
 }

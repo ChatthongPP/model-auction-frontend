@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { getProducts } from "@/services/productService";
-import { Product, ProductQueryParams } from "@/types/productTypes";
+import { getBids } from "@/services/bidService";
+import { Bid, BidQueryParams } from "@/types/bidTypes";
 
-export const useProduct = (queryParams: ProductQueryParams = {}) => {
-  const [products, setProducts] = useState<Product[]>([]);
+export const useBid = (queryParams: BidQueryParams = {}) => {
+  const [bids, setBids] = useState<Bid[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [pagination, setPagination] = useState({
@@ -13,15 +13,15 @@ export const useProduct = (queryParams: ProductQueryParams = {}) => {
     limit: queryParams.limit ?? 10,
   });
 
-  const fetchProducts = async (params: ProductQueryParams) => {
+  const fetchBids = async (params: BidQueryParams) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await getProducts(params);
+      const response = await getBids(params);
 
       if (response) {
-        setProducts(response.data);
+        setBids(response.data);
         setPagination({
           currentPage: response.currentPage,
           totalCount: response.totalCount,
@@ -43,17 +43,16 @@ export const useProduct = (queryParams: ProductQueryParams = {}) => {
   };
 
   useEffect(() => {
-    console.log("useEffect");
-    fetchProducts(queryParams);
+    fetchBids(queryParams);
   }, [queryParams]);
 
   const goToPage = (page: number) => {
-    const params: ProductQueryParams = {
+    const params: BidQueryParams = {
       ...queryParams,
       current_page: page,
     };
-    fetchProducts(params);
+    fetchBids(params);
   };
 
-  return { products, loading, error, pagination, goToPage };
+  return { bids, loading, error, pagination, goToPage };
 };

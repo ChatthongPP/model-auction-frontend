@@ -3,7 +3,7 @@ import { getCategories } from "@/services/categoryService";
 import { Category as CategoryType } from "@/types/categoryTypes";
 
 export function useCategory() {
-  const [categories, setCategories] = useState<CategoryType[] | []>([]);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchCategories = async () => {
