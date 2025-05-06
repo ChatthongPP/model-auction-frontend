@@ -25,7 +25,7 @@ export default function AdminAuctionManagement() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
- 
+
   useEffect(() => {
     const fetchProducts = async () => {
       setIsLoading(true);
@@ -151,7 +151,7 @@ export default function AdminAuctionManagement() {
     }
   }, []);
 
- 
+  // CSV headers
   const headers = [
     { label: 'ชื่อสินค้า', key: 'name' },
     { label: 'หมวดหมู่', key: 'category' },
@@ -169,7 +169,7 @@ export default function AdminAuctionManagement() {
         <div className="text-gray-600 mb-4">กำลังโหลด...</div>
       )}
 
-      
+      {/* รายงาน CSV */}
       <div className="mb-4">
         <CSVLink
           data={approvedProducts}
@@ -182,7 +182,7 @@ export default function AdminAuctionManagement() {
         </CSVLink>
       </div>
 
-    
+      
       
       {/* สินค้าที่ได้รับการอนุมัติ */}
       <div>
