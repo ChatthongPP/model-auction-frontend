@@ -7,7 +7,7 @@ export default function DashboardPage() {
         <StatCard title="Products" value="120" />
         <StatCard title="Active Auctions" value="45" />
         <StatCard title="Users" value="850" />
-        <StatCard title="Total Revenue" value="$12,500" />
+        
       </div>
     </div>
   );
