@@ -1,16 +1,17 @@
 import apiClient from "@/lib/apiClient";
-import { User, AuthResponse, UserRequest } from "@/types/authTypes";
+import { User, UserRequest } from "@/types/authTypes";
 
 export const login = async (
   email: string,
   password: string
-): Promise<AuthResponse> => {
-  const response = await apiClient.post<AuthResponse>("/login", {
+): Promise<unknown> => {
+  const response = await apiClient.post("/login", {
     email,
     password,
   });
-  localStorage.setItem("authToken", response.data.token);
-  return response.data;
+
+  localStorage.setItem("authToken", response.data.data.token);
+  return response.data.data;
 };
 
 export const getProfile = async (): Promise<User | null> => {
@@ -43,9 +44,7 @@ export const getProfile = async (): Promise<User | null> => {
   }
 };
 
-export const register = async (
-  userData: UserRequest
-): Promise<AuthResponse> => {
+export const register = async (userData: UserRequest): Promise<unknown> => {
   const payload = {
     email: userData.email,
     password: userData.password,
@@ -59,5 +58,5 @@ export const register = async (
   };
 
   const response = await apiClient.post("/register", payload);
-  return response.data.data;
+  return response.data;
 };

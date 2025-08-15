@@ -6,17 +6,18 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "@/components/RegisterForm";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { getRoleIdFromToken } from "@/utils/authUtils";
 
 export default function Header() {
   const router = useRouter();
   const [activeModal, setActiveModal] = useState<"login" | "register" | null>(
     null
   );
+  const [roleId, setRoleId] = useState<number | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    setIsLoggedIn(!!token);
+    handleLoginSuccess();
   }, []);
 
   const closeModal = () => setActiveModal(null);
@@ -25,6 +26,8 @@ export default function Header() {
     const token = localStorage.getItem("authToken");
     if (token) {
       setIsLoggedIn(true);
+      const role = getRoleIdFromToken(token);
+      setRoleId(role);
     }
     closeModal();
   };
@@ -32,8 +35,11 @@ export default function Header() {
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     setIsLoggedIn(false);
+    setRoleId(null);
     router.push("/");
   };
+
+  console.log("roleId", roleId);
 
   return (
     <>
@@ -44,7 +50,7 @@ export default function Header() {
             {isLoggedIn ? (
               <>
                 <Link
-                  href="/profile"
+                  href={roleId === 4 ? "/seller-centre" : "/profile"}
                   className="bg-[#6a0dad] hover:bg-[#9b59b6] text-white font-bold py-2 px-4 rounded-2xl"
                 >
                   Profile

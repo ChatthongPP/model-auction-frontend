@@ -22,7 +22,3 @@ export interface UserRequest {
   citizenId: string;
   roleId: number;
 }
-
-export interface AuthResponse {
-  token: string;
-}
