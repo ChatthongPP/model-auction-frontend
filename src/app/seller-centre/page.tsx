@@ -44,7 +44,7 @@ export default function SellerCentre() {
     return {
       seller_id: userId,
       current_page: 1,
-      limit: 12,
+      limit: 12, 
       order_by: "id",
       order: "desc",
     };

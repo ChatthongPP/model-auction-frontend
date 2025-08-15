@@ -99,7 +99,7 @@ export default function Hero() {
             วิธีเติมเงิน
           </Link>
           <Link
-            href="/contact-chat"
+            href="/contact"
             className="bg-gradient-to-r from-[#6a0dad] to-[#9b59b6] hover:from-[#9b59b6] hover:to-pink-400 text-white font-bold py-2 px-6 rounded-2xl shadow-md transition-colors duration-200"
           >
             ติดต่อเรา
